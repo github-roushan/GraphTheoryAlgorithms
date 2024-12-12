@@ -7,12 +7,7 @@ using namespace std;
 
 void bfs(int root, vector<vector<int>> &G, vector<bool>& visited, vector<int>&P);
 
-vector<int> find_shortest_path(int source, int destination, vector<vector<int>>&G){
-    int nodes = G.size();
-    vector<bool> visited(nodes, false);
-    vector<int> prev_node(nodes, -1);
-    bfs(source, G, visited, prev_node);
-
+vector<int> reconstruct_path(int source, int destination, vector<int>&prev_node){
     // find the previous node from destination until we reach source
     vector<int> path;
     int cur_node = destination;
@@ -22,6 +17,14 @@ vector<int> find_shortest_path(int source, int destination, vector<vector<int>>&
     }
     reverse(path.begin(), path.end());
     return path;
+}
+
+vector<int> find_shortest_path(int source, int destination, vector<vector<int>>&G){
+    int nodes = G.size();
+    vector<bool> visited(nodes, false);
+    vector<int> prev_node(nodes, -1);
+    bfs(source, G, visited, prev_node);
+    return reconstruct_path(source, destination, prev_node);
 }
 
 // Explore all neighbor nodes in a layer
